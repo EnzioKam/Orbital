@@ -99,6 +99,16 @@ function getData(){
     data = JSON.parse(strData);
   }
 
+  data.sort(function(a,b){
+    if (a[2] <= b[2]){
+      return -1;
+    }
+    else{
+      return 1;
+    }
+  })
+
+
   var id = data[0][2];
   var curr = [];
   for (var x=0; x<data.length; x++){
@@ -115,38 +125,3 @@ function getData(){
   createContainer(id, curr);
 
 }
-
-$(document).ready(function(){
-
-  $('#download-button').click(function(){
-    var data = localStorage.getItem('selected_mappings');
-    var arr = JSON.parse(data);
-    if (!arr || arr.length == 0){
-       M.toast({html: 
-        "You have no modules selected. Go back to the previous page to Select some modules.", 
-        classes: 'alert'});
-       return;
-    }
-
-    var compositeCSV = "NUS Code,NUS Credits,PU Name,PU Code,PU Title,PU Credits";
-    var pu_name;
-    for (var i = 0; i < arr.length; i++) {
-      if (!pu_name || pu_name != arr[i][2].replace(";", " ")){
-        pu_name = arr[i][2].replace(";", " ");
-        compositeCSV += "\n\n" + pu_name;
-      }
-
-      compositeCSV += "\n";      
-      for (var j = 0; j < arr[j].length; j++){
-        var cell = arr[i][j].replace(";", " ");
-        compositeCSV += cell + ",";
-      }
-    }
-
-    var filename = "mappings.csv"
-    var content =  "data:text/csv;charset=utf-8," + encodeURIComponent(compositeCSV);
-    $(this).attr("href", content).attr("download", filename);
-
-  });
-
-});

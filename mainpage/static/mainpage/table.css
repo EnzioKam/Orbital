@@ -1,0 +1,32 @@
+tbody {
+  display: block;
+  height: 400px;
+  overflow: auto;
+}
+
+thead, tbody tr {
+  display: table;
+  width: 100%;
+  table-layout:fixed;
+}
+
+thead {
+  width: calc( 100% - 1em );
+}
+
+th {
+  color: white;
+}
+
+table {
+  width: 100%;
+}
+
+#toast-container {
+  top: 20%;
+  right: 35%;
+}
+
+.alert {
+  background-color: #37474f;
+}

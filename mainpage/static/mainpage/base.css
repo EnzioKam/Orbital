@@ -1,0 +1,13 @@
+body {
+  background-color: rgb(220,220,220);
+}
+
+.side-nav {
+  top: 64px;
+  width: 130px;
+}
+
+.modal {
+  width: 90%;
+  height: 90%;
+}
