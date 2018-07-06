@@ -29,15 +29,6 @@ function saveSelected(){
       }
     }
 
-  stored_arr.sort(function(a,b){
-    if (a[2] <= b[2]){
-      return -1;
-    }
-    else{
-      return 1;
-    }
-  })
-
     var comb_data = JSON.stringify(stored_arr);
     localStorage.setItem('selected_mappings', comb_data);
   }
@@ -81,34 +72,32 @@ function selectAll() {
 
 }
 
-//Filtering functions
-function filterTableData() {
-  var puName = $("#id_pu_name").val().toUpperCase();
-  var general =  $("#id_general").val().toUpperCase();
-  // filter and update table data
-  $("#tabledata tr").addClass('hidden');
-  if (!puName && !general){
-    return;
-  }
-  else if (puName && !general){
-    $("#tabledata tr:contains(" + puName + ")").filter(function(){
-      return ($(this).find('.pu-name').text().toUpperCase().indexOf(puName) > -1);
-    }).removeClass('hidden');
-  }
-  else if (!puName && general){
-    $("#tabledata tr:contains(" + general + ")").removeClass('hidden');
-  }
-  else{
-    $("#tabledata tr:contains(" + general + "):contains("
-     + puName + ")").filter(function(){
-      return ($(this).find('.pu-name').text().toUpperCase().indexOf(puName) > -1);
-    }).removeClass('hidden');
-  }
-}
 
+//Filtering functions
 $(document).ready(function(){
 
-  $("#id_pu_name, #id_general").on("keyup", filterTableData);
+  $("#id_pu_name").on("keyup", function() {
+    var search = $(this).val().toUpperCase();
+    if (!search && !$("#id_pu_name").val()){
+      $("#tabledata tr").addClass('hidden');
+    }
+    else{
+      $("#tabledata tr").removeClass('hidden').filter(function() {
+        return !($(this).find('.pu-name').text().toUpperCase().indexOf(search) > -1);
+      }).addClass('hidden');
+    }
+  });
+
+  $("#id_general").on("keyup", function() {
+    var search = $(this).val().toUpperCase();
+    if (!search && !$("#id_general").val()){
+      $("#tabledata tr").addClass('hidden');
+    }
+    else{
+      $("#tabledata tr").removeClass('hidden').filter(function() {
+        return !($(this).text().toUpperCase().indexOf(search) > -1);
+      }).addClass('hidden');
+    }
+  });  
 
 });
-
